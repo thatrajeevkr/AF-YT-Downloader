@@ -10,11 +10,10 @@ import {
 
 const Header = ({ 
   dispatch, 
+  products, 
   filter, 
   isLoading, 
-  products,
-  productsLength, 
-  filteredProductsLength,
+  filteredProducts,
   history 
 }) => {
   const [searchInput, setSearchInput] = useState(filter.keyword);
@@ -34,6 +33,7 @@ const Header = ({
 
   const isFiltered = ['keyword', 'brand', 'minPrice', 'maxPrice', 'sortBy'].some(key => !!filter[key]);
   const isMobile = window.screen.width <= 480 ? true : false;
+  const productsCount = filteredProducts.length;
 
   const onSearchChange = (e) => {
     const val = e.target.value.trimStart();
@@ -41,7 +41,7 @@ const Header = ({
   };
 
   const onKeyUp = (e) => {
-    if (e.keyCode === 13 && productsLength !== 0) {
+    if (e.keyCode === 13 && products.length !== 0) {
       dispatch(setTextFilter(searchInput));
       e.target.blur();
       searchbarRef.current.classList.remove('is-open-recent-search');
@@ -97,12 +97,16 @@ const Header = ({
       <div className="product-list-header-title">
         {isFiltered ? (
           <h3>
-            {filteredProductsLength === 0 
+            {productsCount === 0 
               ? `No product found` 
-              : `Found ${filteredProductsLength} ${filteredProductsLength > 1 ? 'products' : 'product'}`
+              : `Found ${productsCount} ${productsCount > 1 ? 'products' : 'product'}`
             }
           </h3>
-        ) : <h3>Eyewear</h3>}
+        ) : (
+          <h3>
+            Eyewear &nbsp;<span>{`${productsCount} ${productsCount > 1 ? 'products' : 'product'}`}</span>
+          </h3>
+        )}
       </div>
       <div className="product-list-header-actions">
         {isFiltered && (
@@ -115,19 +119,18 @@ const Header = ({
         )}
         &nbsp;
         <div className="filters-toggle">
-            <button
-                className="button button-small button-border button-border-gray"
-                disabled={isLoading}
-                onClick={onClickToggle}
-            >
-              Filters
-              <div className="filters-toggle-caret icon-caret" />
-            </button>
+          <button
+              className="button button-small button-border button-border-gray"
+              disabled={isLoading}
+              onClick={onClickToggle}
+          >
+            Filters
+            <div className="filters-toggle-caret icon-caret" />
+          </button>
           <div className="filters-toggle-sub">
             <Filters 
                 dispatch={dispatch}
                 products={products}
-                productsLength={productsLength}
                 filter={filter}
                 isLoading={isLoading}
             />
@@ -140,7 +143,7 @@ const Header = ({
               onChange={onSearchChange}
               onKeyUp={onKeyUp}
               onFocus={onFocusInput}
-              placeholder="Filter products by keyword"
+              placeholder="Search for product"
               readOnly={isLoading}
               type="text" 
               value={searchInput}
