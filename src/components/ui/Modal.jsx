@@ -4,25 +4,24 @@ import AppModal from 'react-modal';
 const Modal = ({ 
   isOpen, 
   onRequestClose, 
-  afterOpenModal,
-  overrideStyle, 
+  afterOpenModal, 
   children 
 }) => {
-  const defaultStyle = {
+  const customStyles = {
     content: {
       top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
       position: 'fixed',
-      padding: '50px 20px',
+      paddingTop: '50px',
+      paddingBottom: '50px',
       transition: 'all .5s ease',
       zIndex: 9999,
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       boxShadow: '0 5px 10px rgba(0, 0, 0, .1)',
-      animation: 'scale .3s ease',
-      ...overrideStyle
+      animation: 'scale .3s ease'
     }
   };
 
@@ -34,16 +33,12 @@ const Modal = ({
         onAfterOpen={afterOpenModal}
         onRequestClose={onRequestClose}
         shouldCloseOnOverlayClick={true}
-        style={defaultStyle}
+        style={customStyles}
         contentLabel="Product Modal"
     >
       {children}
     </AppModal>
   );
-};
-
-Modal.defaultProps = {
-  overrideStyle: {}
 };
 
 export default Modal;

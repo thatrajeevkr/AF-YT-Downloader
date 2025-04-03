@@ -115,14 +115,12 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
               <Input 
                   label="Product Description"
                   maxLength={200}
-                  cols={37}
-                  rows={5}
                   readOnly={isLoading}
                   placeholder="Nice Description"
                   onInputChange={onProductDescriptionInput}
                   isRequired={false}
                   field="description"
-                  type="textarea"
+                  type="text"
                   value={field.description.value}
               />
             </div>

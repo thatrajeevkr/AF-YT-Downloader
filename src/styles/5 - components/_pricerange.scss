@@ -9,7 +9,6 @@
   width: 100%;
   height: 30px;
   display: flex;
-  margin-bottom: 1rem;
 }
 
 .price-range-slider {
@@ -20,16 +19,11 @@
 
 .price-range-input {
   border: none !important;
-  font-size: 4rem !important;
-  border-bottom: 2px solid transparent !important;
+  font-size: $font-medium !important;
+  border-bottom: 1px solid $border-color !important;
   padding: $l-size;
   flex-grow: 1;
   text-align: center;
-
-  &:hover,
-  &:focus {
-    border-bottom: 2px solid $off-black !important;
-  }
 }
 
 .price-range-scale {
