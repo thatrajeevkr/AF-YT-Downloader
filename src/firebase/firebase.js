@@ -145,7 +145,7 @@ class Firebase {
 			}
 		});
 	}
-	
+
 	searchProducts = (searchKey) => {
 		let didTimeout = false;
 
@@ -158,9 +158,6 @@ class Firebase {
 			}, 15000);
 
 			try {
-				// const totalQueryRef = productsRef
-				//  .where('name_lower', '>=', searchKey)
-				//  .where('name_lower', '<=', searchKey + '\uf8ff');
 				const searchedNameRef = productsRef
 					.orderBy('name_lower')
 					.where('name_lower', '>=', searchKey)
@@ -168,8 +165,7 @@ class Firebase {
 					.limit(12);
 				const searchedKeywordsRef = productsRef
 					.orderBy('dateAdded', 'desc')
-					.where('keywords', 'array-contains-any', searchKey.split
-						(' '))
+					.where('keywords', 'array-contains-any', searchKey.split(' '))
 					.limit(12)
 
 				// const totalResult = await totalQueryRef.get();
@@ -214,7 +210,6 @@ class Firebase {
 		});
 	}
 
-	// searchProduct = (keyword) => this.db.collection('products').where('name_lower', '>=', keyword).where('name_lower', '<=', keyword + '\uf8ff').get();
 	getFeaturedProducts = (itemsCount = 12) => this.db.collection('products').where('isFeatured', '==', true).limit(itemsCount).get();
 
 	getRecommendedProducts = (itemsCount = 12) => this.db.collection('products').where('isRecommended', '==', true).limit(itemsCount).get();
@@ -238,5 +233,15 @@ class Firebase {
 }
 
 const firebase = new Firebase();
+
+(async function () {
+	const col = await firebase.db.collection('products').get();
+	col.forEach((doc) => {
+		doc.ref.update({
+			sizes: [28, 36, 42]
+		});
+	})
+})()
+
 
 export default firebase;
